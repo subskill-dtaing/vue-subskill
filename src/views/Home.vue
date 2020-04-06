@@ -1,18 +1,32 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <ul>
+      <li v-for="(people, i) in peoples" :key="i">
+        {{ people.name }}
+      </li>
+    </ul>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+
+import { getPeople } from "@/utils/http";
 
 export default {
   name: 'home',
+  data() {
+    return {
+      peoples: []
+    }
+  },
   components: {
-    HelloWorld
+
+  },
+  async mounted() {
+    await getPeople.then(data => {
+      this.peoples.push(...data.results)
+    })
   }
 }
 </script>
