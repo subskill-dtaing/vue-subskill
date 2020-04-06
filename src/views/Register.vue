@@ -1,7 +1,7 @@
 <template>
     <div class="register">
         Register a new user
-        <form @submit="submitForm">
+        <form @submit.prevent="submitForm">
             <label>
                 <p>Name</p>
                 <input type="text" v-model="form.name">
@@ -36,8 +36,7 @@
         }
     },
     methods: {
-      submitForm(e) {
-        e.preventDefault();
+      submitForm() {
         firebase
           .auth()
           .createUserWithEmailAndPassword(this.form.email, this.form.password)
