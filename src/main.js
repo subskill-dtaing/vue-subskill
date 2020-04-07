@@ -3,10 +3,12 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import FirebaseInit from "./utils/firebase";
+import VueChatScroll from "vue-chat-scroll";
 
 Vue.config.productionTip = false
 
 FirebaseInit();
+Vue.use(VueChatScroll);
 
 new Vue({
   router,

@@ -36,19 +36,27 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const user = firebase.auth().currentUser;
+  // If user not logged in,
+  // Only routes Login and Register are accessible
+  // Otherwise, disabled routes Login and Register
 
-  if (to.name === 'Login' || to.name === 'Register') {
-    next();
-  } else {
+  firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
-      next();
+      // User is signed in.
+      if (to.name === 'Login' || to.name === 'Register') {
+        next('/')
+      } else {
+        next();
+      }
     } else {
-      next({
-        path: '/login'
-      });
+      // No user is signed in.
+      if (to.name === 'Login' || to.name === 'Register') {
+        next();
+      } else {
+        next('/login');
+      }
     }
-  }
+  });
 });
 
 export default router
